@@ -61,7 +61,7 @@ void heuristic::get_params_from_file(char* filename,int subject=0,int group=0){
     cout<<"could not open input"<<endl;
   for(int i=0;i<5*subject+group-1;i++)
     getline(input,s);
-  input>>stopping_thresh>>K0>>gamma>>lapse_rate>>opp_scale>>center_weight;
+  input>>stopping_thresh>>pruning_thresh>>D0>>lapse_rate>>opp_scale>>center_weight;
   for(unsigned int i=0;i<Nweights;i++)
     input>>w_act[i];
   for(unsigned int i=0;i<Nweights;i++)
@@ -74,8 +74,8 @@ void heuristic::get_params_from_file(char* filename,int subject=0,int group=0){
 
 void heuristic::get_params_from_matlab(double* input){
   stopping_thresh=input[0];
-  K0=input[1];
-  gamma=input[2];
+  pruning_thresh=input[1];
+  D0=input[2];
   lapse_rate=input[3];
   opp_scale=input[4];
   exploration_constant=input[5];
@@ -274,15 +274,14 @@ vector<zet> heuristic::get_moves(board& b, bool player, bool nosort=false){
   return candidate;
 }
 
-vector<zet> heuristic::get_pruned_moves(board& b, bool player){
-  unsigned int K=K_dist(engine)+K0;
+/*vector<zet> heuristic::get_pruned_moves(board& b, bool player,unsigned int K){
   vector<zet> candidate=get_moves(b,player);
   if(candidate.size()>K)
     candidate.erase(candidate.begin()+K,candidate.end());
   return candidate;
-}
+}*/
 
-/*vector<zet> heuristic::get_pruned_moves(board& b, bool player){
+vector<zet> heuristic::get_pruned_moves(board& b, bool player){
   vector<zet> candidate=get_moves(b,player);
   unsigned int i=1;
   while(i<candidate.size() && abs(candidate[0].val-candidate[i].val)<pruning_thresh)
@@ -290,7 +289,7 @@ vector<zet> heuristic::get_pruned_moves(board& b, bool player){
   if(i<candidate.size())
     candidate.erase(candidate.begin()+i,candidate.end());
   return candidate;
-}*/
+}
 
 vector<zet> heuristic::get_moves(board& b, uint64 m1,uint64 m2, bool player){
   vector<zet> candidate=get_moves(b,player,true);
@@ -332,7 +331,7 @@ zet heuristic::makerandommove(board b, uint64 m1,uint64 m2,bool player){
   return zet(m2,0.0,player);
 }
 
-zet heuristic::makemove_dfs(board bstart,bool player){
+zet heuristic::makemove_bfs(board bstart,bool player){
   int depth=D_dist(engine)+D0;
   unsigned int K=K_dist(engine)+K0;
   double alpha[depth+1];

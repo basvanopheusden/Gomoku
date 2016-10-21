@@ -178,9 +178,24 @@ double heuristic::evaluate(board b){
 }
 
 void heuristic::remove_features(){
+  return;
+  unsigned int i=0;
+  while(i<Nfeatures){
+    if(bernoulli_distribution{feature[i].drop_rate}(engine)){
+      feature_backup.push_back(feature[i]);
+      feature.erase(feature.begin()+i);
+      Nfeatures--;
+    }
+    else i++;
+  }
 }
 
 void heuristic::restore_features(){
+  for(unsigned int i=0;i<feature_backup.size();i++){
+    feature.push_back(feature_backup[i]);
+    Nfeatures++;
+  }
+  feature_backup.clear();
 }
 
 void heuristic::write_to_header(char* filename){
@@ -230,7 +245,7 @@ vector<zet> heuristic::get_moves(board& b, bool player, bool nosort=false){
         deltaL-=c_act*feature[i].diff_act_pass();
     }
   for(i=1,m=1;m!=boardend;m<<=1){
-    if(b.isempty(m) && attention(engine)){
+    if(b.isempty(m) && bernoulli_distribution{1-feature[0].drop_rate}(engine)){
       candidate.push_back(zet(m,deltaL+center_weight*vtile[m]+noise(engine),player));
       lookup[m]=i;
       i++;

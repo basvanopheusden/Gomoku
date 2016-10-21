@@ -25,33 +25,10 @@ void worker_thread(heuristic h,data_struct* dat,todolist* board_list){
   board_list_mutex.unlock();
 }
 
-void worker_thread_super(superheuristic s,data_struct* dat,todolist* board_list){
-  int i=-1;
-  bool success=false;
-  uint64 m;
-  board_list_mutex.lock();
-  while(board_list->get_next(i,success)){
-    board_list_mutex.unlock();
-    m=s.makemove_bfs(dat->alltrials[i].b,dat->alltrials[i].player).zet_id;
-    success=(m==dat->alltrials[i].m);
-    board_list_mutex.lock();
-  }
-  board_list_mutex.unlock();
-}
-
 double compute_loglik_threads(heuristic& h,data_struct* dat,todolist* board_list){
   thread t[NTHREADS];
   for(int i=0;i<NTHREADS;i++)
     t[i]=thread(worker_thread,h,dat,board_list);
-  for(int i=0;i<NTHREADS;i++)
-    t[i].join();
-  return board_list->get_Ltot();
-}
-
-double compute_loglik_threads_super(superheuristic& s,data_struct* dat,todolist* board_list){
-  thread t[NTHREADS];
-  for(int i=0;i<NTHREADS;i++)
-    t[i]=thread(worker_thread_super,s,dat,board_list);
   for(int i=0;i<NTHREADS;i++)
     t[i].join();
   return board_list->get_Ltot();
@@ -79,38 +56,6 @@ double compute_loglik(heuristic& h, data_struct& dat, bool talk, int subject,
   res=compute_loglik_threads(h,&dat,board_list);
   delete board_list;
   return res;
-}
-
-double compute_entropy(superheuristic& s,data_struct& dat,char* filename){
-  todolist board_list(dat.Nboards);
-  board_list.set_output(filename);
-  for(unsigned int i=0;i<dat.Nboards;i++)
-    dat.alltrials[i].m=s.makemove_bfs(dat.alltrials[i].b,dat.alltrials[i].player).zet_id;
-  return compute_loglik_threads_super(s,&dat,&board_list);
-}
-
-double compute_entropy(heuristic& h,data_struct& dat,char* filename){
-  todolist board_list(dat.Nboards);
-  board_list.set_output(filename);
-  for(unsigned int i=0;i<dat.Nboards;i++)
-    dat.alltrials[i].m=h.makemove_bfs(dat.alltrials[i].b,dat.alltrials[i].player).zet_id;
-  return compute_loglik_threads(h,&dat,&board_list);
-}
-
-double compute_entropy(heuristic& h,data_struct& dat){
-  todolist board_list(dat.Nboards);
-  for(unsigned int i=0;i<dat.Nboards;i++)
-    dat.alltrials[i].m=h.makemove_bfs(dat.alltrials[i].b,dat.alltrials[i].player).zet_id;
-  return compute_loglik_threads(h,&dat,&board_list);
-}
-
-
-double compute_crossentropy(heuristic& h1,heuristic& h2,data_struct& dat,char* filename){
-  todolist board_list(dat.Nboards);
-  board_list.set_output(filename);
-  for(unsigned int i=0;i<dat.Nboards;i++)
-    dat.alltrials[i].m=h1.makemove_bfs(dat.alltrials[i].b,dat.alltrials[i].player).zet_id;
-  return compute_loglik_threads(h2,&dat,&board_list);
 }
 
 void mexFunction(int nlhs, mxArray *plhs[],int nrhs, const mxArray *prhs[]){
