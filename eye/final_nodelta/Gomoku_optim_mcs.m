@@ -51,8 +51,8 @@ data = {player,group,'hvh','final'};
 % v: column vector of upper bounds
 % u(k)<v(k) is required
 %
-u =[0.1; 0.001;  0.25; -inf*ones(5,1)];
-v =[10.0; 1; 1.0; 4.0; inf*ones(5,1)];
+u =[0.1; 0.001; 0.01; 0.25; -inf*ones(5,1)];
+v =[10.0; 1.0; 1.0; 4.0; inf*ones(5,1)];
 dimension=length(u)
 
 use_defaults=0
