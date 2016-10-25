@@ -27,7 +27,7 @@ Nplayers=${allNs[$k]}
 
 group=$(($i%5+1))
 player=$((Nplayers-(($j-$i-1)/5)%$Nplayers-1))
-l=$((21-($j-$i-1)/(5*$Nplayers)))
+l=$((22-($j-$i-1)/(5*$Nplayers)))
 
 model=${allmodels[$l]}
 model2=${allmodels2[$l]}
