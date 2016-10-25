@@ -36,7 +36,7 @@ direc=$SCRATCH/Gomoku/${data}/${model}
 
 module purge
 module load matlab/2014a gcc/4.9.2
-export MATLABPATH=$MATLABPATH:$SCRATCH/Gomoku/Code:$direc
+export MATLABPATH=$MATLABPATH:$SCRATCH/Gomoku/Code:$SCRATCH/Gomoku/Code/mcs:$SCRATCH/Gomoku/Code/mcs/gls:$SCRATCH/Gomoku/Code/mcs/minq5:$direc
 export LD_PRELOAD=$GCC_LIB/libstdc++.so
 
 cd $direc
