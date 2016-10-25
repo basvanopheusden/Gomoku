@@ -3,7 +3,7 @@
 #PBS -l nodes=1:ppn=20
 #PBS -l walltime=24:00:00
 #PBS -l mem=6GB
-#PBS -t 0-31899
+#PBS -t 0-27599
 #PBS -j oe
 #PBS -M svo213@nyu.edu
 #PBS -m abe 
@@ -36,7 +36,7 @@ direc=$SCRATCH/Gomoku/${data}/${model}
 
 module purge
 module load matlab/2014a gcc/4.9.2
-export MATLABPATH=$MATLABPATH:/scratch/svo213/Gomoku/Code:$direc
+export MATLABPATH=$MATLABPATH:$SCRATCH/Gomoku/Code:$direc
 export LD_PRELOAD=$GCC_LIB/libstdc++.so
 
 cd $direc
