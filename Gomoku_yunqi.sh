@@ -8,9 +8,9 @@
 #PBS -M yl2120@nyu.edu
 #PBS -m abe
 
-data=hvh
-model=final_nocenter
-Nplayers=40
+data=tai1
+model=final
+Nplayers=50
 player=$((${PBS_ARRAYID}%$Nplayers))
 group=$((${PBS_ARRAYID}/$Nplayers+1))
 direc=$SCRATCH/Gomoku/${data}/${model}
