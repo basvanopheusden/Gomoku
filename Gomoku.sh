@@ -3,14 +3,14 @@
 #PBS -l nodes=1:ppn=20
 #PBS -l walltime=15:00:00
 #PBS -l mem=6GB
-#PBS -t 0-199
+#PBS -t 200-249
 #PBS -j oe
 #PBS -M svo213@nyu.edu
 #PBS -m abe
 
-data=hvh
-model=final_no2conn
-Nplayers=40
+data=learn1
+model=final
+Nplayers=50
 player=$((${PBS_ARRAYID}%$Nplayers))
 group=$((${PBS_ARRAYID}/$Nplayers+1))
 direc=$SCRATCH/Gomoku/${data}/${model}

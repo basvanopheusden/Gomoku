@@ -5,12 +5,12 @@
 #PBS -l mem=6GB
 #PBS -t 0-199
 #PBS -j oe
-#PBS -M yz1349@nyu.edu
+#PBS -M yl2120@nyu.edu
 #PBS -m abe
 
-data=hvh
-model=final_nocenter
-Nplayers=40
+data=tai1
+model=final
+Nplayers=50
 player=$((${PBS_ARRAYID}%$Nplayers))
 group=$((${PBS_ARRAYID}/$Nplayers+1))
 direc=$SCRATCH/Gomoku/${data}/${model}

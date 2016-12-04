@@ -43,7 +43,7 @@ addpath('/scratch/svo213/Gomoku/Code/mcs/gls')
 
 
 fcn = 'Gomoku_wrapper';
-data = {player,group,'hvh','final_drop_tile'};
+data = {player,group,'learn3','final_drop_tile'};
 
 % define bounds on variables (+-inf allowed)
 %

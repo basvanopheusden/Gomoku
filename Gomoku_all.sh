@@ -46,7 +46,7 @@ cp $direc/times.txt .
 mkdir Output
 rm Output/out*
 
-echo "Gomoku_optim_mcs($player,$group); getbestx($player,$group,'${data}',${model2}); exit;" | matlab -nodisplay
+echo "Gomoku_optim_mcs($player,$group); getbestx($player,$group,'${data}','${model2}'); exit;" | matlab -nodisplay
 
 echo "Done"
 
