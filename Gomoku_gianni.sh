@@ -6,7 +6,7 @@
 #SBATCH --mem=6GB
 #SBATCH --job-name=Gomoku
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=svo213@nyu.edu
+#SBATCH --mail-user=gvg218@nyu.edu
 #SBATCH --output=Gomoku_%j.out
 
 i=$((${SLURM_ARRAY_TASK_ID}+14550))
