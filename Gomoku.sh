@@ -1,16 +1,16 @@
 #!/bin/bash
 #PBS -N Gomoku
 #PBS -l nodes=1:ppn=20
-#PBS -l walltime=15:00:00
+#PBS -l walltime=24:00:00
 #PBS -l mem=6GB
-#PBS -t 200-249
+#PBS -t 0-74
 #PBS -j oe
 #PBS -M svo213@nyu.edu
 #PBS -m abe
 
-data=learn1
+data=tur2
 model=final
-Nplayers=50
+Nplayers=15
 player=$((${PBS_ARRAYID}%$Nplayers))
 group=$((${PBS_ARRAYID}/$Nplayers+1))
 direc=$SCRATCH/Gomoku/${data}/${model}
