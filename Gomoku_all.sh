@@ -6,17 +6,17 @@
 #SBATCH --mem=6GB
 #SBATCH --job-name=Gomoku
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=svo213@nyu.edu
+#SBATCH --mail-user=gvg218@nyu.edu
 #SBATCH --output=Gomoku_%j.out
 
-i=$((${SLURM_ARRAY_TASK_ID}+30500))
+i=$((${SLURM_ARRAY_TASK_ID}+16200))
 allmodels=(final final_noprune final_nodelta final_noact final_notree final_nocenter final_no2conn final_no2unc final_no3 final_no4 final_nonoise final_weight_hvd final_triangle final_drop_hvd final_drop_type final_opp final_fixed_iters final_fixed_branch final_fixed_depth final_mcts_myopic final_mcts_rand final_drop_tile final_opt_weights)
 allmodels2=(final final final final final final final final final final final final final final final final final_fixed_iters final_fixed_branch final_fixed_depth mcts mcts final_drop_tile final)
-alldatas=(hvh gen eye learn1 learn2 learn3 tai1 tai2 tur1 tur2)
-allNs=(40 40 10 50 50 50 50 40 30 15 15)
+alldatas=(hvh gen eye learn1 learn2 learn3 tai1 tai2 tur)
+allNs=(40 40 10 50 50 50 50 40 30)
 
 k=0
-for j in 4600 9200 10350 16100 21850 27600 33350 37950 39675 41400; do
+for j in 4600 9200 10350 16100 21850 27600 33350 41400; do
   if [ "$j" -lt "$i" ]; then
     k=$(($k+1));
   else break;
