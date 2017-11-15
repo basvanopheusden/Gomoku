@@ -1,24 +1,26 @@
 #!/bin/bash
-#PBS -N Gomoku
-#PBS -l nodes=1:ppn=20
-#PBS -l walltime=24:00:00
-#PBS -l mem=6GB
-#PBS -t 0-74
-#PBS -j oe
-#PBS -M svo213@nyu.edu
-#PBS -m abe
+#SBATCH --nodes=1
+#SBATCH --array=0
+#SBATCH --cpus-per-task=20
+#SBATCH --time=24:00:00
+#SBATCH --mem=6GB
+#SBATCH --job-name=Gomoku
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=svo213@nyu.edu
+#SBATCH --output=Gomoku_%j.out
 
-data=tur2
-model=final
-Nplayers=15
-player=$((${PBS_ARRAYID}%$Nplayers))
-group=$((${PBS_ARRAYID}/$Nplayers+1))
+data=tai2
+model=final_optweights
+#model2=$model
+model2=final
+Nplayers=40
+player=12 #$((${SLURM_ARRAY_TASK_ID}%$Nplayers))
+group=1 #$((${SLURM_ARRAY_TASK_ID}/$Nplayers+1))
 direc=$SCRATCH/Gomoku/${data}/${model}
 
 module purge
-module load matlab/2014a gcc/4.9.2
+module load matlab/2016b
 export MATLABPATH=$MATLABPATH:$SCRATCH/Gomoku/Code:$SCRATCH/Gomoku/Code/mcs:$SCRATCH/Gomoku/Code/mcs/gls:$SCRATCH/Gomoku/Code/mcs/minq5:$direc
-export LD_PRELOAD=$GCC_LIB/libstdc++.so
 
 cd $direc
 mkdir subject_${player}_group_${group}
@@ -27,9 +29,9 @@ cp $direc/times.txt .
 mkdir Output
 rm Output/out*
 
-echo "${data} ${model} ${player} ${group}"
+echo $model $data $player $group
 
-echo "Gomoku_optim_mcs($player,$group); getbestx($player,$group,'${data}','final'); exit;" | matlab -nodisplay
+echo "Gomoku_optim_mcs($player,$group); getbestx($player,$group,'${data}','${model2}'); exit;" | matlab -nodisplay
 
 echo "Done"
 

@@ -10,7 +10,11 @@ function [params,loglik]=collect_params(nsubjects,ngroups)
         load(filename)
         allx(:,(j-1)*ngroups+k)=x;
         allL((j-1)*ngroups+k)=l;
-      else fprintf('file not found:%i,%i\n',j,k)
+      else 
+		filename=['subject_' num2str(j-1) '_group_' num2str(k) '/params_inferred.txt'];
+	    x = load(filename);
+        allx(:,(j-1)*ngroups+k)=x;
+		fprintf('file not found:%i,%i\n',j,k)
       end
   end
   loglik=allL;
